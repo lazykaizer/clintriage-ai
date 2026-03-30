@@ -1,0 +1,38 @@
+name: clintriage-ai
+version: 1.0.0
+description: >
+  Indian emergency room triage RL environment.
+  AI agent learns to prioritize patients across 5 progressively harder tasks —
+  from binary classification to resource allocation under constraints.
+  India-specific cases include dengue, snake bite, TB, RTA, organophosphate poisoning.
+domain: healthcare
+real_world: true
+tasks:
+  - id: 1
+    name: binary_triage
+    difficulty: easy
+    description: Classify single patient as critical or non-critical
+  - id: 2
+    name: priority_ordering
+    difficulty: medium
+    description: Rank 3 patients by treatment urgency
+  - id: 3
+    name: multi_patient_assignment
+    difficulty: medium
+    description: Assign triage levels to 5 simultaneous patients
+  - id: 4
+    name: icu_resource_allocation
+    difficulty: hard
+    description: Select 3 ICU patients from 8 with clinical reasoning
+  - id: 5
+    name: edge_case_detection
+    difficulty: hard
+    description: Identify life-threatening condition from misleading symptoms
+observation_space: structured_json
+action_space: categorical_with_optional_reasoning
+reward_range: [0.0, 1.0]
+infra:
+  runtime_limit_minutes: 20
+  vcpu: 2
+  memory_gb: 8
+  gpu_required: false

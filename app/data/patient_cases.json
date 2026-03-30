@@ -1,0 +1,997 @@
+[
+  {
+    "patient_id": "C001",
+    "age": 45,
+    "gender": "male",
+    "chief_complaint": "crushing chest pain radiating to left arm with profuse sweating for 30 minutes",
+    "vitals": {
+      "heart_rate": 112,
+      "blood_pressure": "170/105",
+      "oxygen_saturation": 94,
+      "temperature": 37.1,
+      "respiratory_rate": 22
+    },
+    "history": "hypertension for 8 years, smoker 15 years, father had MI at age 50",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "30 minutes",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C002",
+    "age": 55,
+    "gender": "male",
+    "chief_complaint": "sudden severe headache described as worst of life with vomiting and neck stiffness",
+    "vitals": {
+      "heart_rate": 98,
+      "blood_pressure": "190/110",
+      "oxygen_saturation": 96,
+      "temperature": 37.3,
+      "respiratory_rate": 20
+    },
+    "history": "hypertension poorly controlled, smoker, no prior surgeries",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "1 hour",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C003",
+    "age": 8,
+    "gender": "male",
+    "chief_complaint": "high fever 104F with neck stiffness and photophobia, not responding to parents",
+    "vitals": {
+      "heart_rate": 140,
+      "blood_pressure": "85/55",
+      "oxygen_saturation": 95,
+      "temperature": 40.0,
+      "respiratory_rate": 28
+    },
+    "history": "previously healthy child, no vaccinations for meningococcal disease",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "4 hours",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C004",
+    "age": 35,
+    "gender": "male",
+    "chief_complaint": "road traffic accident, unconscious on arrival, GCS 7, large scalp laceration bleeding profusely",
+    "vitals": {
+      "heart_rate": 130,
+      "blood_pressure": "80/50",
+      "oxygen_saturation": 88,
+      "temperature": 36.5,
+      "respiratory_rate": 30
+    },
+    "history": "no known medical conditions, was riding motorcycle without helmet",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "20 minutes",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C005",
+    "age": 28,
+    "gender": "female",
+    "chief_complaint": "severe breathing difficulty with wheezing and lip swelling after eating prawns",
+    "vitals": {
+      "heart_rate": 125,
+      "blood_pressure": "85/55",
+      "oxygen_saturation": 87,
+      "temperature": 37.0,
+      "respiratory_rate": 32
+    },
+    "history": "known shellfish allergy, forgot to carry EpiPen today",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "15 minutes",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C006",
+    "age": 32,
+    "gender": "male",
+    "chief_complaint": "organophosphate poisoning after drinking pesticide, excessive salivation, pinpoint pupils, difficulty breathing",
+    "vitals": {
+      "heart_rate": 50,
+      "blood_pressure": "90/60",
+      "oxygen_saturation": 85,
+      "temperature": 36.8,
+      "respiratory_rate": 10
+    },
+    "history": "farmer from rural Maharashtra, recent crop failure leading to financial distress",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "45 minutes",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C007",
+    "age": 26,
+    "gender": "female",
+    "chief_complaint": "massive postpartum hemorrhage, delivered at home by dai, soaking through cloths, dizzy and pale",
+    "vitals": {
+      "heart_rate": 135,
+      "blood_pressure": "70/40",
+      "oxygen_saturation": 90,
+      "temperature": 36.9,
+      "respiratory_rate": 28
+    },
+    "history": "third delivery, previous two normal, no antenatal care this pregnancy",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "1 hour",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C008",
+    "age": 62,
+    "gender": "male",
+    "chief_complaint": "sudden onset left sided weakness, facial droop, slurred speech, cannot lift left arm",
+    "vitals": {
+      "heart_rate": 88,
+      "blood_pressure": "180/100",
+      "oxygen_saturation": 96,
+      "temperature": 37.0,
+      "respiratory_rate": 18
+    },
+    "history": "diabetes type 2 for 15 years, hypertension, atrial fibrillation, not compliant with warfarin",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "90 minutes",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C009",
+    "age": 4,
+    "gender": "female",
+    "chief_complaint": "generalized tonic-clonic seizure ongoing for 10 minutes, fever 105F, not stopping",
+    "vitals": {
+      "heart_rate": 160,
+      "blood_pressure": "90/60",
+      "oxygen_saturation": 89,
+      "temperature": 40.6,
+      "respiratory_rate": 35
+    },
+    "history": "history of febrile seizures at age 2, current episode of viral fever for 2 days",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "10 minutes of active seizure",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C010",
+    "age": 50,
+    "gender": "male",
+    "chief_complaint": "cobra bite on right hand 20 minutes ago, rapidly spreading swelling, ptosis developing, difficulty swallowing",
+    "vitals": {
+      "heart_rate": 110,
+      "blood_pressure": "100/65",
+      "oxygen_saturation": 92,
+      "temperature": 37.0,
+      "respiratory_rate": 24
+    },
+    "history": "farmer from rural Tamil Nadu, bitten while working in rice paddy, no first aid given",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "20 minutes",
+    "ground_truth_level": 1,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C011",
+    "age": 28,
+    "gender": "male",
+    "chief_complaint": "Russell viper bite on left foot, progressive swelling up to knee, bleeding from gums, blood-tinged urine",
+    "vitals": {
+      "heart_rate": 105,
+      "blood_pressure": "105/70",
+      "oxygen_saturation": 96,
+      "temperature": 37.2,
+      "respiratory_rate": 20
+    },
+    "history": "agricultural worker from Karnataka, bitten 2 hours ago while harvesting sugarcane",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "2 hours",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C012",
+    "age": 42,
+    "gender": "male",
+    "chief_complaint": "confirmed dengue with platelet count 35000, gum bleeding, petechiae on both legs, severe abdominal pain",
+    "vitals": {
+      "heart_rate": 108,
+      "blood_pressure": "95/65",
+      "oxygen_saturation": 96,
+      "temperature": 39.2,
+      "respiratory_rate": 22
+    },
+    "history": "dengue NS1 positive 4 days ago, platelets dropping daily from 1.5L, lives in Delhi during monsoon",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "4 days of fever, bleeding started today",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C013",
+    "age": 72,
+    "gender": "female",
+    "chief_complaint": "severe breathlessness at rest, bilateral leg swelling up to thighs, cannot lie flat, coughing pink frothy sputum",
+    "vitals": {
+      "heart_rate": 115,
+      "blood_pressure": "160/95",
+      "oxygen_saturation": 88,
+      "temperature": 37.0,
+      "respiratory_rate": 30
+    },
+    "history": "known congestive heart failure, rheumatic heart disease since childhood, missed medications for 1 week",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "6 hours, worsening",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C014",
+    "age": 22,
+    "gender": "male",
+    "chief_complaint": "high-grade fever with rigors and chills for 3 days, today became confused and jaundiced",
+    "vitals": {
+      "heart_rate": 118,
+      "blood_pressure": "100/60",
+      "oxygen_saturation": 94,
+      "temperature": 40.2,
+      "respiratory_rate": 24
+    },
+    "history": "returned from Chhattisgarh forest area 1 week ago, no malaria prophylaxis taken",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "3 days fever, confusion since morning",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C015",
+    "age": 30,
+    "gender": "female",
+    "chief_complaint": "severe lower abdominal pain, 8 weeks pregnant, vaginal bleeding, feeling faint and dizzy",
+    "vitals": {
+      "heart_rate": 120,
+      "blood_pressure": "90/55",
+      "oxygen_saturation": 97,
+      "temperature": 37.1,
+      "respiratory_rate": 22
+    },
+    "history": "previous ectopic pregnancy 2 years ago, no antenatal visit yet for this pregnancy",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 hours, pain worsening rapidly",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C016",
+    "age": 38,
+    "gender": "male",
+    "chief_complaint": "coughing up large amounts of blood, approximately half a cup, with ongoing active hemoptysis",
+    "vitals": {
+      "heart_rate": 108,
+      "blood_pressure": "110/70",
+      "oxygen_saturation": 91,
+      "temperature": 38.5,
+      "respiratory_rate": 26
+    },
+    "history": "known TB patient on ATT for 2 months, cavitary disease on X-ray, lives in Mumbai slum",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "1 hour, three episodes of hemoptysis",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C017",
+    "age": 65,
+    "gender": "male",
+    "chief_complaint": "severe upper abdominal pain radiating to back, persistent vomiting, cannot keep anything down",
+    "vitals": {
+      "heart_rate": 110,
+      "blood_pressure": "100/60",
+      "oxygen_saturation": 95,
+      "temperature": 38.0,
+      "respiratory_rate": 22
+    },
+    "history": "chronic alcohol use for 20 years, prior episode of acute pancreatitis 1 year ago",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "8 hours",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C018",
+    "age": 25,
+    "gender": "female",
+    "chief_complaint": "32 weeks pregnant with severe headache, blurred vision, epigastric pain, BP very high",
+    "vitals": {
+      "heart_rate": 95,
+      "blood_pressure": "170/115",
+      "oxygen_saturation": 97,
+      "temperature": 37.0,
+      "respiratory_rate": 20
+    },
+    "history": "primigravida, irregular antenatal checkups at PHC, no prior BP issues",
+    "arrival_mode": "ambulance",
+    "time_since_onset": "3 hours, headache worsening",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C019",
+    "age": 58,
+    "gender": "male",
+    "chief_complaint": "diabetic foot with black gangrenous big toe, foul smell, red streaking up the leg, high fever",
+    "vitals": {
+      "heart_rate": 105,
+      "blood_pressure": "130/80",
+      "oxygen_saturation": 96,
+      "temperature": 39.5,
+      "respiratory_rate": 20
+    },
+    "history": "diabetes type 2 for 20 years, poorly controlled HbA1c 11, previous toe amputation on other foot",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "1 week of worsening, fever since yesterday",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C020",
+    "age": 18,
+    "gender": "male",
+    "chief_complaint": "severe asthma attack not responding to home nebulizer, cannot complete sentences, using accessory muscles",
+    "vitals": {
+      "heart_rate": 128,
+      "blood_pressure": "130/85",
+      "oxygen_saturation": 89,
+      "temperature": 37.0,
+      "respiratory_rate": 35
+    },
+    "history": "severe persistent asthma since childhood, 2 ICU admissions in past, uses inhaler daily, ran out of steroids",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 hours, progressively worsening",
+    "ground_truth_level": 2,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C021",
+    "age": 35,
+    "gender": "female",
+    "chief_complaint": "severe right lower quadrant abdominal pain with nausea and fever, pain started around navel and moved",
+    "vitals": {
+      "heart_rate": 100,
+      "blood_pressure": "120/80",
+      "oxygen_saturation": 98,
+      "temperature": 38.5,
+      "respiratory_rate": 18
+    },
+    "history": "no prior surgeries, last menstrual period 2 weeks ago, no significant medical history",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "12 hours",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C022",
+    "age": 48,
+    "gender": "male",
+    "chief_complaint": "passing kidney stone, severe colicky left flank pain radiating to groin, blood in urine",
+    "vitals": {
+      "heart_rate": 95,
+      "blood_pressure": "140/90",
+      "oxygen_saturation": 98,
+      "temperature": 37.5,
+      "respiratory_rate": 18
+    },
+    "history": "previous kidney stones twice, family history of stones, drinks minimal water, works outdoors in Rajasthan heat",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "3 hours",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C023",
+    "age": 6,
+    "gender": "male",
+    "chief_complaint": "high fever for 3 days, rash appeared today, mild dehydration, crying and irritable",
+    "vitals": {
+      "heart_rate": 120,
+      "blood_pressure": "90/60",
+      "oxygen_saturation": 97,
+      "temperature": 39.0,
+      "respiratory_rate": 24
+    },
+    "history": "not vaccinated for measles per parents, attends local government school, no sick contacts known",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "3 days fever, rash since today morning",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C024",
+    "age": 40,
+    "gender": "male",
+    "chief_complaint": "moderate dyspnea on exertion, cough with yellowish sputum for 5 days, mild fever",
+    "vitals": {
+      "heart_rate": 95,
+      "blood_pressure": "130/85",
+      "oxygen_saturation": 93,
+      "temperature": 38.2,
+      "respiratory_rate": 22
+    },
+    "history": "COPD diagnosed 5 years ago, current smoker 20 pack-years, uses inhalers irregularly",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "5 days",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C025",
+    "age": 55,
+    "gender": "female",
+    "chief_complaint": "uncontrolled blood sugar 450 mg/dL, excessive thirst, frequent urination, feeling weak and nauseous",
+    "vitals": {
+      "heart_rate": 100,
+      "blood_pressure": "130/80",
+      "oxygen_saturation": 97,
+      "temperature": 37.0,
+      "respiratory_rate": 20
+    },
+    "history": "diabetes type 2 for 10 years, stopped metformin 2 weeks ago due to cost, no insulin",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 days",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C026",
+    "age": 30,
+    "gender": "female",
+    "chief_complaint": "severe migraine with aura, photophobia, nausea, throbbing left-sided headache, unable to work",
+    "vitals": {
+      "heart_rate": 82,
+      "blood_pressure": "125/80",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "chronic migraines since age 18, takes sumatriptan, current episode not responding to medication",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "6 hours",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C027",
+    "age": 14,
+    "gender": "male",
+    "chief_complaint": "right forearm deformity after fall from bicycle, obvious angulation, moderate pain, no open wound",
+    "vitals": {
+      "heart_rate": 95,
+      "blood_pressure": "110/70",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 18
+    },
+    "history": "healthy child, fell off bicycle while riding to school, no head injury, was wearing helmet",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "1 hour",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C028",
+    "age": 2,
+    "gender": "female",
+    "chief_complaint": "persistent vomiting and watery diarrhea for 2 days, sunken eyes, decreased urine output, lethargic",
+    "vitals": {
+      "heart_rate": 140,
+      "blood_pressure": "75/50",
+      "oxygen_saturation": 97,
+      "temperature": 38.0,
+      "respiratory_rate": 30
+    },
+    "history": "no prior hospitalizations, drinks well water in rural village, sibling also has diarrhea",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 days",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C029",
+    "age": 60,
+    "gender": "male",
+    "chief_complaint": "acute urinary retention, unable to pass urine for 12 hours, suprapubic pain and distension",
+    "vitals": {
+      "heart_rate": 88,
+      "blood_pressure": "150/90",
+      "oxygen_saturation": 98,
+      "temperature": 37.2,
+      "respiratory_rate": 16
+    },
+    "history": "BPH diagnosed 3 years ago, on tamsulosin, stopped medication last month",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "12 hours",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C030",
+    "age": 45,
+    "gender": "female",
+    "chief_complaint": "right eye sudden painless vision loss, seeing a curtain coming down, happened 2 hours ago",
+    "vitals": {
+      "heart_rate": 78,
+      "blood_pressure": "140/85",
+      "oxygen_saturation": 98,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "high myopia, previous laser treatment for retinal tear in left eye, diabetic for 8 years",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 hours",
+    "ground_truth_level": 3,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C031",
+    "age": 25,
+    "gender": "male",
+    "chief_complaint": "laceration on left forearm from kitchen knife, 4 cm long, bleeding controlled with pressure, no tendon damage",
+    "vitals": {
+      "heart_rate": 82,
+      "blood_pressure": "120/78",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "no medical conditions, works as chef, last tetanus shot 3 years ago",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "30 minutes",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C032",
+    "age": 33,
+    "gender": "female",
+    "chief_complaint": "urinary burning and frequency for 2 days, mild lower abdominal discomfort, no fever",
+    "vitals": {
+      "heart_rate": 80,
+      "blood_pressure": "115/75",
+      "oxygen_saturation": 99,
+      "temperature": 37.1,
+      "respiratory_rate": 16
+    },
+    "history": "recurrent UTIs, had 3 episodes in past year, no kidney problems, otherwise healthy",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 days",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C033",
+    "age": 50,
+    "gender": "male",
+    "chief_complaint": "mild low back pain for 1 week after lifting heavy sack of grain, no leg weakness, no numbness",
+    "vitals": {
+      "heart_rate": 76,
+      "blood_pressure": "130/82",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "chronic back pain episodes, farmer, no red flag symptoms, previously managed with physiotherapy",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "1 week",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C034",
+    "age": 22,
+    "gender": "female",
+    "chief_complaint": "sore throat with mild fever for 3 days, able to swallow liquids, no drooling or breathing difficulty",
+    "vitals": {
+      "heart_rate": 85,
+      "blood_pressure": "110/70",
+      "oxygen_saturation": 99,
+      "temperature": 38.0,
+      "respiratory_rate": 16
+    },
+    "history": "no significant history, college student, roommate had similar symptoms last week",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "3 days",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C035",
+    "age": 10,
+    "gender": "male",
+    "chief_complaint": "mild ear pain left side for 2 days, tugging at ear, slight discharge, mild fever yesterday resolved",
+    "vitals": {
+      "heart_rate": 90,
+      "blood_pressure": "100/65",
+      "oxygen_saturation": 99,
+      "temperature": 37.3,
+      "respiratory_rate": 18
+    },
+    "history": "recurrent ear infections, had adenoid surgery at age 7, otherwise healthy",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 days",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C036",
+    "age": 40,
+    "gender": "male",
+    "chief_complaint": "twisted right ankle while playing cricket, mild swelling, can bear some weight, no deformity",
+    "vitals": {
+      "heart_rate": 78,
+      "blood_pressure": "125/80",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "no prior ankle injuries, regular cricket player on weekends, otherwise healthy",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 hours",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C037",
+    "age": 65,
+    "gender": "female",
+    "chief_complaint": "itchy rash on both arms for 3 days after using new laundry detergent, no difficulty breathing",
+    "vitals": {
+      "heart_rate": 75,
+      "blood_pressure": "135/82",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "known eczema, sensitive skin, diabetes controlled on medication, no drug allergies",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "3 days",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C038",
+    "age": 28,
+    "gender": "male",
+    "chief_complaint": "non-venomous insect bite on right calf, mild local redness and swelling, mildly itchy, no systemic symptoms",
+    "vitals": {
+      "heart_rate": 76,
+      "blood_pressure": "118/75",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "no allergies, outdoor trekking in Western Ghats, bite happened yesterday",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "1 day",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C039",
+    "age": 55,
+    "gender": "male",
+    "chief_complaint": "mild constipation for 5 days, some bloating, passing gas, no blood in stool, eating normally",
+    "vitals": {
+      "heart_rate": 72,
+      "blood_pressure": "128/80",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "chronic constipation, sedentary office job, low fiber diet, takes occasional laxatives",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "5 days",
+    "ground_truth_level": 4,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C040",
+    "age": 35,
+    "gender": "female",
+    "chief_complaint": "mild seasonal cold with runny nose and sneezing for 2 days, no fever, eating and drinking normally",
+    "vitals": {
+      "heart_rate": 78,
+      "blood_pressure": "112/72",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "seasonal allergies, no asthma, takes antihistamines occasionally, works in IT office",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 days",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C041",
+    "age": 19,
+    "gender": "male",
+    "chief_complaint": "mild acne on face, requesting medication, no acute issues, came for prescription refill",
+    "vitals": {
+      "heart_rate": 72,
+      "blood_pressure": "115/72",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "acne for 2 years, using topical benzoyl peroxide, wants oral medication, no other complaints",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "chronic, 2 years",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C042",
+    "age": 30,
+    "gender": "female",
+    "chief_complaint": "requesting routine blood work and health checkup, no symptoms, just wants annual screening",
+    "vitals": {
+      "heart_rate": 70,
+      "blood_pressure": "110/70",
+      "oxygen_saturation": 99,
+      "temperature": 36.8,
+      "respiratory_rate": 14
+    },
+    "history": "no medical conditions, exercises regularly, vegetarian diet, no family history of concern",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "not applicable, routine visit",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C043",
+    "age": 45,
+    "gender": "male",
+    "chief_complaint": "small painless wart on right index finger for 2 months, wants it removed, no functional limitation",
+    "vitals": {
+      "heart_rate": 74,
+      "blood_pressure": "125/80",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "no significant history, office worker, concerned about cosmetic appearance",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 months",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C044",
+    "age": 60,
+    "gender": "female",
+    "chief_complaint": "needs prescription refill for thyroid medication, ran out 2 days ago, no new symptoms, feels fine",
+    "vitals": {
+      "heart_rate": 72,
+      "blood_pressure": "130/80",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "hypothyroidism on levothyroxine for 10 years, well controlled, regular follow-ups with endocrinologist",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "not applicable",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C045",
+    "age": 25,
+    "gender": "male",
+    "chief_complaint": "mild muscle soreness after gym workout yesterday, no injury, dull ache in both arms, eating normally",
+    "vitals": {
+      "heart_rate": 68,
+      "blood_pressure": "118/75",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "regular gym goer, tried heavier weights yesterday, no prior injuries, no medications",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "1 day",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C046",
+    "age": 70,
+    "gender": "male",
+    "chief_complaint": "mild dandruff and dry scalp, itching for 3 weeks, using coconut oil without relief",
+    "vitals": {
+      "heart_rate": 70,
+      "blood_pressure": "138/84",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "hypertension controlled on amlodipine, no skin conditions, recently changed shampoo brand",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "3 weeks",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C047",
+    "age": 8,
+    "gender": "female",
+    "chief_complaint": "requesting vaccination certificate for school admission, child is healthy and active, no complaints",
+    "vitals": {
+      "heart_rate": 85,
+      "blood_pressure": "95/60",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 18
+    },
+    "history": "all vaccinations up to date, normal growth and development, no medical concerns",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "not applicable",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C048",
+    "age": 38,
+    "gender": "female",
+    "chief_complaint": "mild heartburn after eating spicy biryani at dinner, occasional discomfort, no chest pain or vomiting",
+    "vitals": {
+      "heart_rate": 75,
+      "blood_pressure": "118/76",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "occasional GERD symptoms, takes antacids, no alarm symptoms, BMI 26, no weight loss",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "4 hours",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C049",
+    "age": 42,
+    "gender": "male",
+    "chief_complaint": "wants vision test for new driving license, no eye pain or vision problems, routine exam",
+    "vitals": {
+      "heart_rate": 72,
+      "blood_pressure": "122/78",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "wears reading glasses, no eye diseases, no diabetes, last eye check 2 years ago",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "not applicable",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "C050",
+    "age": 52,
+    "gender": "male",
+    "chief_complaint": "small paper cut on left thumb that stopped bleeding, wants it cleaned and bandaged",
+    "vitals": {
+      "heart_rate": 70,
+      "blood_pressure": "126/80",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 14
+    },
+    "history": "no medical conditions, works in bank, tetanus up to date, no medications",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "30 minutes",
+    "ground_truth_level": 5,
+    "is_edge_case": false
+  },
+  {
+    "patient_id": "E001",
+    "age": 60,
+    "gender": "female",
+    "chief_complaint": "fatigue and mild nausea for 2 hours, feeling generally unwell, came on her own",
+    "vitals": {
+      "heart_rate": 95,
+      "blood_pressure": "88/60",
+      "oxygen_saturation": 98,
+      "temperature": 37.0,
+      "respiratory_rate": 18
+    },
+    "history": "diabetes type 2 for 12 years, hypertension for 8 years, on metformin and amlodipine",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "2 hours",
+    "ground_truth_level": 1,
+    "is_edge_case": true,
+    "hidden_diagnosis": "Silent MI — diabetic women often present without chest pain. Low BP 88/60 indicates cardiogenic shock."
+  },
+  {
+    "patient_id": "E002",
+    "age": 40,
+    "gender": "female",
+    "chief_complaint": "mild shortness of breath since morning, had knee replacement surgery 5 days ago, otherwise feels okay",
+    "vitals": {
+      "heart_rate": 105,
+      "blood_pressure": "125/82",
+      "oxygen_saturation": 94,
+      "temperature": 37.3,
+      "respiratory_rate": 22
+    },
+    "history": "bilateral knee osteoarthritis, surgery 5 days ago, been on bed rest, no DVT prophylaxis given",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "6 hours, gradual onset",
+    "ground_truth_level": 1,
+    "is_edge_case": true,
+    "hidden_diagnosis": "Pulmonary Embolism — post-surgical immobility + tachycardia + hypoxia. Classic PE presentation that looks mild."
+  },
+  {
+    "patient_id": "E003",
+    "age": 70,
+    "gender": "male",
+    "chief_complaint": "just feeling confused since morning, family says he is not his usual self, mild fever",
+    "vitals": {
+      "heart_rate": 102,
+      "blood_pressure": "95/58",
+      "oxygen_saturation": 95,
+      "temperature": 38.5,
+      "respiratory_rate": 22
+    },
+    "history": "benign prostatic hyperplasia with indwelling catheter, diabetes, lives alone most of the week",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "since this morning, about 8 hours",
+    "ground_truth_level": 1,
+    "is_edge_case": true,
+    "hidden_diagnosis": "Urosepsis — elderly with catheter + confusion + fever + low BP meets SIRS criteria. Sepsis often presents subtly in elderly."
+  },
+  {
+    "patient_id": "E004",
+    "age": 55,
+    "gender": "female",
+    "chief_complaint": "mild indigestion and upper stomach discomfort after dinner, some sweating, feeling anxious",
+    "vitals": {
+      "heart_rate": 90,
+      "blood_pressure": "92/62",
+      "oxygen_saturation": 97,
+      "temperature": 37.0,
+      "respiratory_rate": 18
+    },
+    "history": "diabetes type 2 for 15 years, hypothyroidism, peripheral neuropathy, family history of heart disease",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "3 hours",
+    "ground_truth_level": 1,
+    "is_edge_case": true,
+    "hidden_diagnosis": "Acute Coronary Syndrome — atypical presentation in diabetic woman. Diaphoresis + low BP + DM history. Classic missed MI."
+  },
+  {
+    "patient_id": "E005",
+    "age": 35,
+    "gender": "male",
+    "chief_complaint": "mild headache after minor road traffic accident, was wearing helmet, no loss of consciousness, GCS 14, feels mostly fine",
+    "vitals": {
+      "heart_rate": 78,
+      "blood_pressure": "130/82",
+      "oxygen_saturation": 99,
+      "temperature": 37.0,
+      "respiratory_rate": 16
+    },
+    "history": "no medical conditions, motorcycle accident at low speed, hit a divider, slight drowsiness",
+    "arrival_mode": "walk-in",
+    "time_since_onset": "1 hour",
+    "ground_truth_level": 2,
+    "is_edge_case": true,
+    "hidden_diagnosis": "Evolving epidural hematoma — lucid interval classic presentation. GCS 14 with drowsiness post-RTA requires urgent CT. Can deteriorate rapidly."
+  }
+]
