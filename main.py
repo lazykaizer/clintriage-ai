@@ -2,7 +2,10 @@
 ClinTriageAI — FastAPI Entry Point
 Indian ER Triage RL Environment — OpenEnv Hackathon 2026
 """
+import os
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from app.router import router
 
 app = FastAPI(
@@ -16,4 +19,14 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
+# ── API Routes ──
 app.include_router(router)
+
+# ── Static Files & Dashboard ──
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.isdir(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+    @app.get("/dashboard", include_in_schema=False)
+    async def serve_dashboard():
+        return FileResponse(os.path.join(static_dir, "index.html"))
