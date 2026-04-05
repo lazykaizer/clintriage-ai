@@ -1,8 +1,30 @@
+---
+title: ClinTriageAI
+emoji: 🏥
+colorFrom: red
+colorTo: blue
+sdk: docker
+pinned: false
+tags: [openenv, healthcare, rl]
+---
+
 # 🏥 ClinTriageAI — Indian Emergency Room Triage RL Environment
 
 > AI agent learns to prioritize patients in an Indian ER through 5 progressively harder tasks.
 
 **Meta × PyTorch × Hugging Face | OpenEnv Hackathon 2026**
+
+---
+
+## Reproducible Baseline Scores
+| Task | Name | Score |
+|------|------|-------|
+| Task 1 | Binary Triage | 1.00 |
+| Task 2 | Priority Ordering | 0.60 |
+| Task 3 | Multi-Patient Assignment | 0.80 |
+| Task 4 | ICU Resource Allocation | 0.75 |
+| Task 5 | Edge Case Detection | 1.00 |
+| **Average** | **Global Score** | **0.83** |
 
 ---
 
