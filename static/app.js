@@ -207,19 +207,30 @@ async function runAgent() {
     $dropZones.forEach(z => { z.innerHTML = '<p class="drop-hint">Waiting…</p>'; z.classList.remove('filled'); });
     $pool.innerHTML = '';
 
-    agentLog('<span class="log-tag start">[START]</span> task=priority_ordering env=ClinTriageAI', 'start');
+    const taskNames = { 
+        1: 'Binary Triage', 
+        2: 'Priority Ordering', 
+        3: 'Multi-Patient Assignment', 
+        4: 'ICU Resource Allocation', 
+        5: 'Edge Case Detection' 
+    };
+    const currentTaskName = taskNames[selectedTaskId];
+    
+    agentLog(`<span class="log-tag start">[START]</span> task=${selectedTaskId} (${currentTaskName}) env=ClinTriageAI`, 'start');
+
     setProgress('Resetting environment…', 10);
 
     await wait(800);
 
     // ── Step 1: Reset ──
     try {
-        agentLog('Calling <span class="log-code">POST /reset</span> with task_id=2 …', 'info');
+        agentLog(`Calling <span class="log-code">POST /reset</span> with task_id=${selectedTaskId} …`, 'info');
         const resetRes = await fetch(`${API}/reset`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ task_id: 2 })
+            body: JSON.stringify({ task_id: selectedTaskId })
         });
+
         const resetData = await resetRes.json();
         const patients = resetData.observation?.patients || [];
 
@@ -291,9 +302,13 @@ async function runAgent() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                task_id: 2,
-                ranking: ranking,
-                reasoning: 'Agent ranked patients based on vitals severity scoring: heart rate, blood pressure, oxygen saturation, respiratory rate, arrival mode, and chief complaint keyword analysis.'
+                task_id: selectedTaskId,
+                ranking: (selectedTaskId === 2) ? ranking : undefined,
+                triage_decision: (selectedTaskId === 1 || selectedTaskId === 5) ? (scored[0]?.patient?.score > 50 ? 'LEVEL_1' : 'LEVEL_3') : undefined,
+                assignments: (selectedTaskId === 3) ? Object.fromEntries(scored.map(s => [s.patient.patient_id, s.score > 60 ? 'LEVEL_1' : 'LEVEL_3'])) : undefined,
+                icu_patients: (selectedTaskId === 4) ? ranking.slice(0, 3) : undefined,
+                reasoning: `Agent evaluated patients based on clinical features for ${currentTaskName}.`
+
             })
         });
         const stepData = await stepRes.json();
@@ -332,14 +347,20 @@ async function runAgent() {
 // ─── Event Listeners ─────────────────────────────────────────
 $btnRun.addEventListener('click', runAgent);
 
-// Task buttons (visual only for now)
+let selectedTaskId = 2; // Default to Task 2
+
+// Task buttons
 document.querySelectorAll('.task-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+        if (isRunning) return;
         document.querySelectorAll('.task-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        toast(`Task ${btn.dataset.task} selected (Agent runs Task 2 for this demo)`, 'info');
+        selectedTaskId = parseInt(btn.dataset.task);
+        toast(`Task ${selectedTaskId}: ${btn.innerText.trim()} selected`, 'info');
+        agentLog(`Switched to <strong>Task ${selectedTaskId}</strong>: ${btn.innerText.trim()}`, 'info');
     });
 });
+
 
 // ─── Init ────────────────────────────────────────────────────
 (async function init() {
