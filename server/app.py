@@ -23,7 +23,7 @@ app = FastAPI(
 app.include_router(router)
 
 # ── Static Files & Dashboard ──
-static_dir = os.path.join(os.path.dirname(__file__), "static")
+static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
 if os.path.isdir(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
