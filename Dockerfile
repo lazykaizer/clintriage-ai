@@ -17,5 +17,5 @@ COPY --chown=user . .
 # HF Spaces uses port 7860
 EXPOSE 7860
 
-# Run the FastAPI server (using main.py)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Run the FastAPI server (using the new spec-compliant path)
+CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "7860"]
