@@ -23,11 +23,7 @@ tasks:
   - id: 4
     name: icu_resource_allocation
     difficulty: hard
-    description: Select 3 ICU patients from 8 with clinical reasoning
-  - id: 5
-    name: edge_case_detection
-    difficulty: hard
-    description: Identify life-threatening condition from misleading symptoms
+    description: Select 3 ICU patients from 8 with clinical severity
 observation_space: structured_json
 action_space: categorical_with_optional_reasoning
 reward_range: [0.0, 1.0]

@@ -12,7 +12,7 @@ app = FastAPI(
     title="ClinTriageAI",
     description=(
         "Indian Emergency Room Triage RL Environment. "
-        "AI agent learns to prioritize patients across 5 progressively harder tasks."
+        "AI agent learns to prioritize patients across 4 progressively harder tasks."
     ),
     version="1.0.0",
     docs_url="/docs",
