@@ -299,35 +299,24 @@ function localTriageScore(patient) {
     const L1_keywords = [
         'cardiac arrest', 'crushing chest pain', 'chest pain radiating',
         'unconscious', 'gcs 7', 'gcs 8', 'not responding',
-        'active seizure', 'seizure ongoing', 'tonic-clonic seizure', 'status epilepticus', 'seizure not stopping', 'not stopping',
-        'anaphylaxis', 'lip swelling', 'lip/tongue swelling', 'tongue swelling',
-        'hemorrhagic shock', 'bleeding profusely', 'massive hemorrhage', 'postpartum hemorrhage',
-        'organophosphate', 'pesticide', 'poisoning', 'drinking pesticide',
-        'stroke', 'facial droop', 'slurred speech', 'arm weakness',
-        'cobra bite', 'neurotoxic', 'ptosis', 'difficulty swallowing',
-        'scalp laceration bleeding', 'unconscious on arrival',
-        'profuse sweating'
+        'active seizure', 'seizure ongoing', 'tonic-clonic seizure', 'status epilepticus',
+        'anaphylaxis', 'lip swelling', 'tongue swelling',
+        'massive hemorrhage', 'postpartum hemorrhage',
+        'organophosphate', 'pesticide', 'poisoning',
+        'cobra bite', 'neurotoxic', 'ptosis', 'difficulty swallowing'
     ];
-    L1_keywords.forEach(w => { if (complaint.includes(w)) score += 55; });
+    L1_keywords.forEach(w => { if (complaint.includes(w)) score += 65; });
 
     // ═══ LEVEL 2 — EMERGENCY (within 15 min) ═══
-    // Vital sign zone → LEVEL_2
-    if (o2 >= 88 && o2 <= 92 && score < 60) score += 35;
-    if (sys >= 85 && sys <= 95 && dia <= 65 && score < 60) score += 30;
-
     const L2_keywords = [
-        'viper bite', 'russell viper', 'bleeding from gums', 'blood-tinged urine', 'hematuria',
-        'dengue', 'platelet', 'petechiae', 'hemorrhagic',
-        'pink frothy sputum', 'cannot lie flat', 'pulmonary edema', 'severe breathlessness at rest',
-        'cerebral malaria', 'confusion', 'jaundiced', 'confused and jaundiced',
-        'ectopic pregnancy', 'pregnant', 'vaginal bleeding',
-        'hemoptysis', 'coughing up blood', 'coughing blood',
-        'severe pancreatitis', 'epigastric pain radiating to back', 'severe upper abdominal pain radiating to back',
-        'pre-eclampsia', 'severe headache', 'blurred vision', 'bp very high',
-        'gangrene', 'gangrenous', 'red streaking', 'foul smell',
-        'severe asthma', 'cannot complete sentences', 'accessory muscles', 'not responding to nebulizer'
+        'viper bite', 'russell viper', 'bleeding from gums', 'blood-tinged urine',
+        'dengue', 'platelet', 'petechiae',
+        'severe breathlessness at rest', 'cannot lie flat', 'pink frothy sputum',
+        'cerebral malaria', 'confusion', 'jaundiced',
+        'ectopic pregnancy', 'hemoptysis', 'coughing up blood',
+        'severe pancreatitis', 'pre-eclampsia', 'gangrene'
     ];
-    L2_keywords.forEach(w => { if (complaint.includes(w)) score += 35; });
+    L2_keywords.forEach(w => { if (complaint.includes(w)) score += 40; });
 
     // Pregnant + low BP + pain = likely L2
     if (complaint.includes('pregnant') && sys < 100 && complaint.includes('pain')) score += 30;

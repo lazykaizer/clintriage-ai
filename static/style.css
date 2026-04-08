@@ -212,7 +212,19 @@ body {
 .badge-terminal { background: var(--stable); animation: pulse-dot 2s infinite; }
 
 /* ─── Patient Cards ─── */
-.card-list { display: flex; flex-direction: column; gap: 14px; flex: 1; overflow-y: auto; overflow-x: hidden; max-height: 480px; padding: 4px 8px 12px 0; }
+.card-list { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 16px; 
+    flex: 1; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    max-height: 750px; 
+    padding: 10px 10px 20px 0; 
+}
+@media (min-width: 1400px) {
+    .card-list { grid-template-columns: 1fr 1fr; }
+}
 .patient-card {
     background: var(--bg-elevated); border: 1px solid var(--border);
     border-radius: var(--radius-md); padding: 14px 16px;
@@ -232,7 +244,15 @@ body {
 .demo-age::after { content: 'yr'; font-size: 0.55rem; opacity: 0.6; margin-left: 1px; font-weight: 400; }
 .demo-gender { background: var(--accent-glow); color: var(--accent); border-color: rgba(99, 102, 241, 0.2); }
 .card-id { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); opacity: 0.8; letter-spacing: 1px; }
-.card-complaint { font-size: 0.82rem; color: var(--text-primary); font-weight: 500; line-height: 1.4; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-clamp: 2; overflow: hidden; }
+.card-complaint { 
+    font-size: 0.85rem; 
+    color: var(--text-primary); 
+    font-weight: 500; 
+    line-height: 1.5; 
+    margin-bottom: 12px; 
+    display: block;
+    overflow: visible; 
+}
 .card-vitals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .vital-item { 
     text-align: center; padding: 8px 4px; 
@@ -250,7 +270,7 @@ body {
 
 /* ─── Ranking Zone ─── */
 #ranking-zone { border-color: var(--border-active); box-shadow: var(--shadow-glow); }
-#ranking-slots { display: flex; flex-direction: column; gap: 14px; flex: 1; overflow-y: auto; overflow-x: hidden; max-height: 480px; padding: 4px 8px 12px 0; }
+#ranking-slots { display: flex; flex-direction: column; gap: 16px; flex: 1; overflow-y: auto; overflow-x: hidden; max-height: 750px; padding: 10px 10px 20px 0; }
 .rank-slot { display: flex; gap: 12px; align-items: stretch; }
 .rank-number { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-width: 72px; }
 .rank-label { width: 36px; height: 36px; display: grid; place-items: center; font-size: 1.1rem; font-weight: 800; border-radius: 50%; color: white; }

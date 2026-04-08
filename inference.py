@@ -141,43 +141,36 @@ def build_prompt(task_id: int, observation: dict) -> str:
         patients = observation.get("patients", [])
         return (
             f"You are a Senior ER Physician. RANK 3 patients from MOST to LEAST urgent.\n\n"
-            f"CLINICAL RANKING HIERARCHY:\n"
-            f"- Any LEVEL_1 (Critical) > Any LEVEL_2 (Emergency) > Any LEVEL_3 (Urgent) > Any LEVEL_4/5.\n"
-            f"- Within a level, prioratize Airway > Breathing > Circulation.\n\n"
+            f"CLINICAL HIERARCHY (Rank #1 should be the most critical):\n"
+            f"- LEVEL 1 (Critical): Cardiac Arrest, Stroke (slurred speech), Unconscious, Pesticide Poisoning, Massive Bleeding, Ongoing Seizure.\n"
+            f"- LEVEL 2 (Emergency): Dengue (bleeding/low platelets), Snake Bite (Viper), Severe Asthma, CHF (pink sputum), Hemoptysis.\n\n"
             f"PATIENTS:\n{json.dumps(patients, indent=2)}\n\n"
-            f"Return JSON: {{\"ranking\": [\"ID_HIGHEST\", \"ID_MIDDLE\", \"ID_LOWEST\"], \"reasoning\": \"Clinical comparison of the 3 patients.\"}}"
+            f"Return JSON: {{\"ranking\": [\"ID_HIGHEST\", \"ID_MIDDLE\", \"ID_LOWEST\"], \"reasoning\": \"Compare vitals and symptom severity.\"}}"
         )
 
     elif task_id == 3:
         patients = observation.get("patients", [])
         return (
-            f"You are a Senior ER Physician. Assign triage levels (LEVEL_1 to LEVEL_5) to 5 concurrent patients.\n\n"
-            f"STRICT VITAL TRIGGERS (LEVEL_1/2):\n"
-            f"- SpO2 ≤ 90% or RR > 30: LEVEL_1 (Critical Respiratory)\n"
-            f"- BP < 90/60 or > 200/120: LEVEL_1 (Critical Hemodynamic)\n"
-            f"- Heart Rate > 130 or < 40: LEVEL_1 (Cardiac Threat)\n"
-            f"- Snake Bite + Systemic Bleeding: LEVEL_2 (Emergency)\n"
-            f"- Fever + Low Platelets + Bleeding: LEVEL_2 (Dengue Emergency)\n\n"
+            f"You are a Senior ER Physician. Assign triage levels (LEVEL_1 to LEVEL_5) to 5 patients.\n\n"
+            f"MAPPING GUIDE:\n"
+            f"- LEVEL_1: Chest Pain + Sweating, Unconscious, BP < 80/50, SpO2 < 90%.\n"
+            f"- LEVEL_2: Dengue Bleeding, Viper Bite, Severe Asthma, CHF, Jaundice + Confusion.\n"
+            f"- LEVEL_3: Appendicitis (RLQ pain), Kidney stone, Measles (rash), Sugar > 400.\n"
+            f"- LEVEL_4: UTI, Back Pain, Minor Sprains.\n\n"
             f"DATA:\n{json.dumps(patients, indent=2)}\n\n"
-            f"Return JSON: {{\"assignments\": {{\"ID1\": \"LEVEL_X\", \"ID2\": \"LEVEL_Y\", ...}}, \"reasoning\": \"Detailed clinical justification for all 5 patients.\"}}"
+            f"Return JSON: {{\"assignments\": {{\"ID\": \"LEVEL_X\", ...}}, \"reasoning\": \"Brief clinical note.\"}}"
         )
 
     elif task_id == 4:
         patients = observation.get("patients", [])
         return (
-            f"Only 3 ICU beds available. Select the 3 MOST CRITICAL patients from this list of {len(patients)}.\n\n"
-            f"1. Mentally assign a triage level (LEVEL_1 to LEVEL_5) to EACH of the {len(patients)} patients using the triage decision matrix.\n"
-            f"2. Categorize by Airway > Breathing > Circulation to prioritize within the same level.\n"
-            f"3. You MUST select the 3 patients with the ABSOLUTE LOWEST triage levels (LEVEL_1 is lowest/most urgent).\n"
-            f"4. Do NOT skip any LEVEL_1 patient. You must pick all LEVEL_1s before picking any LEVEL_2s.\n"
-            f"5. If there is a tie within the same level, pick the patient with the worst vitals (e.g. lowest BP, lowest O2) or ABC criteria.\n\n"
-            f"REASONING FORMAT (CRITICAL for LLM Judge):\n"
-            f"You MUST use this EXACT structure for your reasoning string:\n"
-            f"'Selected [ID1] due to [vital signs] indicating [significance]. History of [comorbidities] increases risk. "
-            f"Selected [ID2] due to [vital signs] indicating [significance]. History of [comorbidities] increases risk. "
-            f"Selected [ID3] due to [vital signs] indicating [significance]. History of [comorbidities] increases risk.'\n\n"
-            f"{json.dumps(patients, indent=2)}\n\n"
-            f"Return JSON: {{\"icu_patients\": [\"ID1\", \"ID2\", \"ID3\"], \"reasoning\": \"detailed clinical reasoning string matching the exact format above\"}}"
+            f"You are a Senior ER Physician. Select EXACTLY 3 most critical patients for ICU admission.\n\n"
+            f"ICU PRIORITY LIST (Select in this order):\n"
+            f"1. IMMEDIATE THREAT: Cardiac Arrest, Unconscious, Stroke, GCS < 8, SpO2 < 85, BP < 80/50.\n"
+            f"2. CRITICAL KILLERS: Cobra Bite (neurotoxic), Pesticide Poisoning, Massive Hemorrhage (PPH), Ongoing Seizure.\n"
+            f"3. EMERGENCY: Severe Asthma Attack, Viper Bite (bleeding gums), Dengue Bleeding, Ectopic Pregnancy.\n\n"
+            f"DATA:\n{json.dumps(patients, indent=2)}\n\n"
+            f"Return JSON: {{\"icu_patients\": [\"ID1\", \"ID2\", \"ID3\"], \"reasoning\": \"Clinical comparison justifying why these 3 are more critical than the other {len(patients)-3}.\"}}"
         )
 
     return ""
