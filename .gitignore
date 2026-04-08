@@ -1,0 +1,33 @@
+# Environment variables — NEVER push tokens
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PRD docs (personal planning — not needed in repo)
+prd_what_to_build.md
+prd_how_to_build.md

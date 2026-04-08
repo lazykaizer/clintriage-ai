@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClinTriageAI — ER Command Center</title>
+    <meta name="description" content="AI-powered emergency room triage dashboard for the ClinTriageAI RL environment.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+</head>
+<body>
+    <!-- ═══ Ambient Background Orbs ═══ -->
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+
+    <!-- ═══ Header ═══ -->
+    <header id="app-header">
+        <div class="header-left">
+            <div class="logo-mark">
+                <img src="/static/logo.png" alt="ClinTriageAI Logo" class="custom-logo">
+            </div>
+            <div class="header-titles">
+                <h1>ClinTriageAI</h1>
+                <p class="header-subtitle">Emergency Room Command Center</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="status-badge" id="server-status">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecting…</span>
+            </div>
+            <div class="header-task-selector">
+                <button class="task-btn active" data-task="1">T1 (Easy)</button>
+                <button class="task-btn" data-task="2">T2 (Medium)</button>
+                <button class="task-btn" data-task="3">T3 (Hard)</button>
+                <button class="task-btn" data-task="4">T4 (Complex)</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══ Task Banner with Run Button ═══ -->
+    <section id="task-banner">
+        <div class="banner-content">
+            <div class="banner-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="m18 20-6-6-6 6"/><path d="M18 4H6"/></svg>
+            </div>
+            <div class="banner-text">
+                <h2>Task 1 — Two-Patient Priority</h2>
+                <p>Watch the AI agent compare 2 patients and rank them by urgency.</p>
+            </div>
+            <button id="btn-run-agent" class="btn btn-run">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run Agent
+            </button>
+        </div>
+        <!-- Progress Bar -->
+        <div class="progress-track">
+            <div class="progress-fill" id="task-progress-bar"></div>
+        </div>
+        <div class="agent-status">
+            <span class="agent-status-dot"></span>
+            <span id="agent-status-text">Idle — Press "Run Agent" to begin</span>
+        </div>
+    </section>
+
+    <!-- ═══ How It Works — Agent Scope ═══ -->
+    <section id="how-it-works" class="expanded">
+        <div class="how-header">
+            <div class="how-title-group">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>What does the AI Agent do?</span>
+            </div>
+            <button class="how-close-btn" onclick="document.getElementById('how-it-works').classList.remove('expanded')" title="Close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <button class="how-open-btn" onclick="document.getElementById('how-it-works').classList.add('expanded')" title="Expand">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+        </div>
+        <div class="how-body">
+            <div class="how-steps">
+                <div class="how-step">
+                    <div class="step-icon">📋</div>
+                    <div class="step-content">
+                        <h4>1. Receives Incoming Patients</h4>
+                        <p>The ER environment sends a batch of incoming patients with their vitals, symptoms, and arrival details to the agent.</p>
+                    </div>
+                </div>
+                <div class="how-step">
+                    <div class="step-icon">🔍</div>
+                    <div class="step-content">
+                        <h4>2. Analyzes Clinical Urgency</h4>
+                        <p>The agent evaluates each patient's heart rate, SpO₂, blood pressure, chief complaint, and arrival mode to determine urgency.</p>
+                    </div>
+                </div>
+                <div class="how-step">
+                    <div class="step-icon">📊</div>
+                    <div class="step-content">
+                        <h4>3. Builds a Priority Queue</h4>
+                        <p>Based on the analysis, the agent <strong>ranks all patients</strong> from most urgent to least urgent — creating a triage priority queue.</p>
+                    </div>
+                </div>
+                <div class="how-step">
+                    <div class="step-icon">✅</div>
+                    <div class="step-content">
+                        <h4>4. Graded by the Environment</h4>
+                        <p>The ranking is submitted to the grader, which compares it against the clinically correct order and returns a reward score.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="how-note">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span><strong>Agent Scope:</strong> The agent only <em>lists</em> and <em>prioritizes</em> incoming patients. It does not manage hospital records, enter patient details, or handle internal operations.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ Main Layout ═══ -->
+    <main id="app-main">
+        <!-- Left: Patient Pool -->
+        <section id="patient-pool" class="glass-panel">
+            <div class="panel-header">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Incoming Patients
+                </h3>
+                <span class="badge" id="patient-count">0</span>
+            </div>
+            <div id="patient-cards" class="card-list">
+                <div class="empty-state" id="empty-pool">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    <p>Agent will load patients automatically</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Center: Ranking Zone (Agent fills these) -->
+        <section id="ranking-zone" class="glass-panel">
+            <div class="panel-header">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="m18 20-6-6-6 6"/><path d="M18 4H6"/></svg>
+                    Agent's Ranking Decision
+                </h3>
+            </div>
+            <div id="ranking-slots">
+                <div class="rank-slot" data-rank="1">
+                    <div class="rank-number">
+                        <span class="rank-label">1</span>
+                        <span class="rank-tag critical">MOST URGENT</span>
+                    </div>
+                    <div class="drop-zone" data-rank="1">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+                <div class="rank-slot" data-rank="2">
+                    <div class="rank-number">
+                        <span class="rank-label">2</span>
+                        <span class="rank-tag urgent">URGENT</span>
+                    </div>
+                    <div class="drop-zone" data-rank="2">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+                <div class="rank-slot" data-rank="3">
+                    <div class="rank-number">
+                        <span class="rank-label">3</span>
+                        <span class="rank-tag">WAITING</span>
+                    </div>
+                    <div class="drop-zone" data-rank="3">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+                <div class="rank-slot" data-rank="4">
+                    <div class="rank-number">
+                        <span class="rank-label">4</span>
+                        <span class="rank-tag">WAITING</span>
+                    </div>
+                    <div class="drop-zone" data-rank="4">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+                <div class="rank-slot" data-rank="5">
+                    <div class="rank-number">
+                        <span class="rank-label">5</span>
+                        <span class="rank-tag">WAITING</span>
+                    </div>
+                    <div class="drop-zone" data-rank="5">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+                <div class="rank-slot" data-rank="6">
+                    <div class="rank-number">
+                        <span class="rank-label">6</span>
+                        <span class="rank-tag">WAITING</span>
+                    </div>
+                    <div class="drop-zone" data-rank="6">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+                <div class="rank-slot" data-rank="7">
+                    <div class="rank-number">
+                        <span class="rank-label">7</span>
+                        <span class="rank-tag">WAITING</span>
+                    </div>
+                    <div class="drop-zone" data-rank="7">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+                <div class="rank-slot" data-rank="8">
+                    <div class="rank-number">
+                        <span class="rank-label">8</span>
+                        <span class="rank-tag stable">LEAST URGENT</span>
+                    </div>
+                    <div class="drop-zone" data-rank="8">
+                        <p class="drop-hint">Waiting for agent…</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right: Results + Agent Log -->
+        <section id="results-panel" class="glass-panel">
+            <div class="panel-header">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Grader Feedback
+                </h3>
+            </div>
+            <div id="results-content">
+                <div class="empty-state" id="empty-results">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+                    <p>Results appear after agent runs</p>
+                </div>
+                <div id="reward-display" class="hidden">
+                    <div class="reward-circle" id="reward-circle">
+                        <span class="reward-value" id="reward-value">0.00</span>
+                        <span class="reward-label">REWARD</span>
+                    </div>
+                    <div class="feedback-box" id="feedback-box">
+                        <h4>Grader Feedback</h4>
+                        <div id="feedback-text"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══ Agent Terminal Log ═══ -->
+    <section id="agent-terminal" class="glass-panel">
+        <div class="panel-header">
+            <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                Agent Activity Log
+            </h3>
+            <span class="badge badge-terminal">LIVE</span>
+        </div>
+        <div id="agent-log" class="agent-log-content">
+            <div class="log-line log-info"><span class="log-time">--:--:--</span> Agent idle. Press "Run Agent" to start evaluation.</div>
+        </div>
+    </section>
+
+    <!-- ═══ Footer ═══ -->
+    <footer id="app-footer">
+        <p>&copy; 2026 ClinTriageAI &nbsp;||&nbsp; 🏥 Indian ER Triage Simulation &nbsp;||&nbsp; All Rights Reserved.</p>
+    </footer>
+
+    <!-- ═══ Toast Container ═══ -->
+    <div id="toast-container"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
