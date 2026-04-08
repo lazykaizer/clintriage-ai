@@ -20,10 +20,11 @@ from openai import OpenAI
 load_dotenv()
 
 # ─── Configuration ────────────────────────────────────────────────────────────
-ENV_URL = "http://localhost:8000"
+ENV_URL = os.getenv("ENV_URL", "http://localhost:7860")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
 HF_TOKEN = os.getenv("HF_TOKEN")
+BENCHMARK = "ClinTriageAI"
 
 # Initialize OpenAI Client
 client = OpenAI(
