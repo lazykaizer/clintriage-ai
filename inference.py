@@ -21,16 +21,14 @@ load_dotenv()
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 ENV_URL = "http://localhost:8000"
-# Mandatory per sample: API_KEY = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
-API_KEY = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
-API_BASE_URL = os.getenv("API_BASE_URL") or "https://router.huggingface.co/v1"
-MODEL_NAME = os.getenv("MODEL_NAME") or "meta-llama/Meta-Llama-3-8B-Instruct"
-BENCHMARK = "ClinTriageAI"
+API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
+MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
-# Initialize OpenAI with explicit empty proxies to avoid environment-level leaks
+# Initialize OpenAI Client
 client = OpenAI(
     base_url=API_BASE_URL, 
-    api_key=API_KEY,
+    api_key=HF_TOKEN,
     http_client=httpx.Client(proxies={})
 )
 
