@@ -23,7 +23,7 @@ class Patient(BaseModel):
 
 
 class ResetRequest(BaseModel):
-    task_id: int                 # 1 to 5
+    task_id: Optional[int] = 1                 # 1 to 4
 
 
 class ResetResponse(BaseModel):

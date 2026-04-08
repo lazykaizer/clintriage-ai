@@ -64,13 +64,14 @@ def get_state():
 
 
 @router.post("/reset")
-def reset(req: ResetRequest):
+def reset(req: ResetRequest = ResetRequest(task_id=1)):
     """Reset environment for a specific task. Returns observation."""
-    if req.task_id not in range(1, 5):
+    task_id = req.task_id if req else 1
+    if task_id not in range(1, 5):
         raise HTTPException(status_code=400, detail="task_id must be 1-4")
 
-    observation = env.reset(req.task_id)
-    return {"task_id": req.task_id, "observation": observation}
+    observation = env.reset(task_id)
+    return {"task_id": task_id, "observation": observation}
 
 
 @router.post("/step")
