@@ -140,8 +140,8 @@ def step(req: StepRequest):
         reward = 0.0
         feedback = f"Grading error: {str(e)}"
 
-    # Clamp reward to [0.0, 1.0] — mandatory rule
-    reward = round(max(0.0, min(1.0, float(reward))), 2)
+    # Clamp reward to (0.01, 0.99) — strict validator compliance (no exact 0.0 or 1.0)
+    reward = round(max(0.01, min(0.99, float(reward))), 2)
 
     env.last_reward = reward
     env.patients_seen += len(patients)
