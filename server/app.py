@@ -31,3 +31,12 @@ if os.path.isdir(static_dir):
     @app.get("/dashboard", include_in_schema=False)
     async def serve_dashboard():
         return FileResponse(os.path.join(static_dir, "index.html"))
+
+def main():
+    import uvicorn
+    # Important: Point to 'server.app:app' so uvicorn can find the FastAPI instance
+    port = int(os.environ.get("PORT", 7860))
+    uvicorn.run("server.app:app", host="0.0.0.0", port=port)
+
+if __name__ == "__main__":
+    main()
