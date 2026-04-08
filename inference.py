@@ -11,6 +11,7 @@ import time
 import requests
 import textwrap
 import re
+import httpx
 from typing import List, Optional
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -26,7 +27,12 @@ API_BASE_URL = os.getenv("API_BASE_URL") or "https://router.huggingface.co/v1"
 MODEL_NAME = os.getenv("MODEL_NAME") or "meta-llama/Meta-Llama-3-8B-Instruct"
 BENCHMARK = "ClinTriageAI"
 
-client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
+# Initialize OpenAI with explicit empty proxies to avoid environment-level leaks
+client = OpenAI(
+    base_url=API_BASE_URL, 
+    api_key=API_KEY,
+    http_client=httpx.Client(proxies={})
+)
 
 # ─── Logging Helpers ──────────────────────────────────────────────────────────
 def log_start(task: str, env: str, model: str) -> None:
@@ -134,28 +140,26 @@ def build_prompt(task_id: int, observation: dict) -> str:
     elif task_id == 2:
         patients = observation.get("patients", [])
         return (
-            f"You are a Senior ER Physician. Your task is PRIORITY RANKING.\n\n"
-            f"STEP-BY-STEP PROCESS:\n"
-            f"1. Assign a triage level (LEVEL_1 to LEVEL_5) to EACH patient using the matrix.\n"
-            f"2. Rank them: LEVEL_1 > LEVEL_2 > LEVEL_3 > LEVEL_4 > LEVEL_5.\n"
-            f"3. Return ONLY the JSON object.\n\n"
-            f"EXAMPLE DATA:\n"
-            f"C001 (Chest Pain, O2 92), C002 (Sprain), C003 (Seizure)\n"
-            f"EXAMPLE RESPONSE: {{\"ranking\": [\"C003\", \"C001\", \"C002\"], \"reasoning\": \"C003 (Seizure/L1) > C001 (Chest Pain/L2) > C003 (Sprain/L5)\"}}\n\n"
-            f"TARGET PATIENTS:\n{json.dumps(patients, indent=2)}\n\n"
-            f"Respond in EXACT JSON format."
+            f"You are a Senior ER Physician. RANK 3 patients from MOST to LEAST urgent.\n\n"
+            f"CLINICAL RANKING HIERARCHY:\n"
+            f"- Any LEVEL_1 (Critical) > Any LEVEL_2 (Emergency) > Any LEVEL_3 (Urgent) > Any LEVEL_4/5.\n"
+            f"- Within a level, prioratize Airway > Breathing > Circulation.\n\n"
+            f"PATIENTS:\n{json.dumps(patients, indent=2)}\n\n"
+            f"Return JSON: {{\"ranking\": [\"ID_HIGHEST\", \"ID_MIDDLE\", \"ID_LOWEST\"], \"reasoning\": \"Clinical comparison of the 3 patients.\"}}"
         )
 
     elif task_id == 3:
         patients = observation.get("patients", [])
         return (
-            f"You are a Senior ER Physician. Assign triage levels to 5 concurrent patients.\n\n"
-            f"CRITICAL RED FLAGS (ALWAYS LEVEL_1 or 2):\n"
-            f"- Chest pain/sweating, Cardiac history, Seizures, Unconscious, Snake bite, Dengue bleeding.\n"
-            f"- Vital triggers: O2 < 93%, BP < 90/60 or > 180/110, Pulse > 120.\n\n"
+            f"You are a Senior ER Physician. Assign triage levels (LEVEL_1 to LEVEL_5) to 5 concurrent patients.\n\n"
+            f"STRICT VITAL TRIGGERS (LEVEL_1/2):\n"
+            f"- SpO2 ≤ 90% or RR > 30: LEVEL_1 (Critical Respiratory)\n"
+            f"- BP < 90/60 or > 200/120: LEVEL_1 (Critical Hemodynamic)\n"
+            f"- Heart Rate > 130 or < 40: LEVEL_1 (Cardiac Threat)\n"
+            f"- Snake Bite + Systemic Bleeding: LEVEL_2 (Emergency)\n"
+            f"- Fever + Low Platelets + Bleeding: LEVEL_2 (Dengue Emergency)\n\n"
             f"DATA:\n{json.dumps(patients, indent=2)}\n\n"
-            f"EXAMPLE: {{\"assignments\": {{\"C001\": \"LEVEL_1\", \"C002\": \"LEVEL_4\"}}, \"reasoning\": \"C001 is critical shock, C002 is minor sprain\"}}\n\n"
-            f"Respond in EXACT JSON format for all {len(patients)} IDs."
+            f"Return JSON: {{\"assignments\": {{\"ID1\": \"LEVEL_X\", \"ID2\": \"LEVEL_Y\", ...}}, \"reasoning\": \"Detailed clinical justification for all 5 patients.\"}}"
         )
 
     elif task_id == 4:

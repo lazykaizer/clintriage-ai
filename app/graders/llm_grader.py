@@ -4,6 +4,7 @@ Uses OpenAI client (mandatory) to evaluate clinical reasoning quality.
 Returns score in [0.0, 0.5] — this is the LLM half of Task 4 scoring.
 """
 import json
+import httpx
 from typing import Tuple
 from openai import OpenAI
 import config
@@ -32,12 +33,17 @@ def grade_reasoning(
 ) -> Tuple[float, str]:
     """
     LLM judge for clinical reasoning quality.
-    Returns (score, feedback) where score is 0.0 to 0.5.
-    Falls back to 0.25 if LLM call fails.
+    Ensures no proxy-related issues during client initialization.
     """
-    client = OpenAI(base_url=config.API_BASE_URL, api_key=config.HF_TOKEN)
+    try:
+        # Explicit initialization with empty proxies to avoid environment-level leaks
+        client = OpenAI(
+            base_url=config.API_BASE_URL,
+            api_key=config.HF_TOKEN,
+            http_client=httpx.Client(proxies={})
+        )
 
-    prompt = f"""Evaluate this AI triage agent's clinical reasoning:
+        prompt = f"""Evaluate this AI triage agent's clinical reasoning:
 
 Patient Data:
 {json.dumps(patient_data, indent=2)}
@@ -49,7 +55,6 @@ Ground Truth Triage Level: LEVEL_{ground_truth_level}
 
 Score the clinical reasoning quality from 0-10 and provide brief feedback."""
 
-    try:
         response = client.chat.completions.create(
             model=config.MODEL_NAME,
             messages=[
