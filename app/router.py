@@ -1,158 +1,108 @@
 """
 ClinTriageAI API Router — All endpoints.
-GET  /       → health check
-GET  /tasks  → list of 5 task definitions
-GET  /state  → current environment state
-POST /reset  → reset environment for a task
-POST /step   → submit agent action, get reward
 """
-from fastapi import APIRouter, HTTPException
-from app.models import ResetRequest, StepRequest, StepResponse
+import os
+import uuid
+import pickle
+import json
+from fastapi import APIRouter, HTTPException, Request
+from app.models import (
+    ResetRequest, StepRequest, StepResponse, ResetResponse,
+    Observation, StateResponse
+)
 from app.env import ClinTriageEnv
-from app.graders import programmatic_grader, llm_grader
 
 router = APIRouter()
-env = ClinTriageEnv()
+
+SESSION_DIR = "/tmp/clinical_sessions"
+os.makedirs(SESSION_DIR, exist_ok=True)
+
+_memory_cache = {}
+
+
+def _session_path(session_id: str) -> str:
+    safe = session_id.replace("-", "")[:64]
+    return os.path.join(SESSION_DIR, f"{safe}.pkl")
+
+
+def save_session(session_id: str, env: ClinTriageEnv):
+    _memory_cache[session_id] = env
+    try:
+        with open(_session_path(session_id), "wb") as f:
+            pickle.dump(env, f)
+    except Exception:
+        pass
+
+
+def load_session(session_id: str) -> ClinTriageEnv:
+    if session_id in _memory_cache:
+        return _memory_cache[session_id]
+    try:
+        path = _session_path(session_id)
+        if os.path.exists(path):
+            with open(path, "rb") as f:
+                env = pickle.load(f)
+            _memory_cache[session_id] = env
+            return env
+    except Exception:
+        pass
+    return None
 
 
 @router.get("/health")
 def health_check():
-    """Health check endpoint. Judges ping this first."""
     return {
         "status": "ok",
         "environment": "ClinTriageAI",
         "version": "1.0.0",
-        "tasks": 4,
     }
 
 
 @router.get("/tasks")
 def list_tasks():
-    """Return definitions for all 5 tasks."""
     return [
-        {
-            "id": 1,
-            "name": "binary_triage",
-            "difficulty": "easy",
-            "description": "Rank 2 patients by treatment urgency",
-        },
-        {
-            "id": 2,
-            "name": "priority_ordering",
-            "difficulty": "medium",
-            "description": "Rank 3 patients by treatment urgency",
-        },
-        {
-            "id": 3,
-            "name": "multi_patient_assignment",
-            "difficulty": "medium",
-            "description": "Assign triage levels to 5 simultaneous patients",
-        },
-        {
-            "id": 4,
-            "name": "icu_resource_allocation",
-            "difficulty": "hard",
-            "description": "Select 3 ICU patients from 8 with clinical reasoning",
-        },
+        {"id": 1, "name": "binary_triage", "difficulty": "easy"},
+        {"id": 2, "name": "priority_ordering", "difficulty": "medium"},
+        {"id": 3, "name": "multi_patient_assignment", "difficulty": "medium"},
+        {"id": 4, "name": "icu_resource_allocation", "difficulty": "hard"},
     ]
 
 
-@router.get("/state")
-def get_state():
-    """Return the current environment state."""
-    return env.get_state()
+@router.post("/reset", response_model=ResetResponse)
+async def reset(req: ResetRequest = None):
+    task_id = req.task_id if req and req.task_id else 1
+    session_id = str(uuid.uuid4())
+    
+    env = ClinTriageEnv()
+    obs = env.reset(task_id)
+    save_session(session_id, env)
+
+    return ResetResponse(session_id=session_id, observation=obs)
 
 
-@router.post("/reset")
-def reset(req: ResetRequest = ResetRequest(task_id=1)):
-    """Reset environment for a specific task. Returns observation."""
-    task_id = req.task_id if req else 1
-    if task_id not in range(1, 5):
-        raise HTTPException(status_code=400, detail="task_id must be 1-4")
+@router.post("/step", response_model=StepResponse)
+async def step(req: StepRequest):
+    env = load_session(req.session_id)
+    if env is None:
+        raise HTTPException(status_code=404, detail="Session not found. Call /reset first.")
 
-    observation = env.reset(task_id)
-    return {"task_id": task_id, "observation": observation}
-
-
-@router.post("/step")
-def step(req: StepRequest):
-    """
-    Process agent action and return reward + feedback.
-    Must call /reset before /step.
-    """
-    if env.current_patients is None:
-        raise HTTPException(
-            status_code=400,
-            detail="No active task. Call POST /reset first.",
-        )
-
-    patients = env.current_patients
-    task_id = req.task_id
-
-    try:
-        if task_id == 1:
-            if not req.ranking:
-                raise HTTPException(400, "Task 1 requires ranking")
-            reward, feedback = programmatic_grader.grade_task1(
-                req.ranking, patients
-            )
-
-        elif task_id == 2:
-            if not req.ranking:
-                raise HTTPException(400, "Task 2 requires ranking")
-            reward, feedback = programmatic_grader.grade_task2(
-                req.ranking, patients
-            )
-
-        elif task_id == 3:
-            if not req.assignments:
-                raise HTTPException(400, "Task 3 requires assignments")
-            reward, feedback = programmatic_grader.grade_task3(
-                req.assignments, patients
-            )
-
-        elif task_id == 4:
-            if not req.icu_patients:
-                raise HTTPException(400, "Task 4 requires icu_patients")
-
-            # Programmatic score (0.0 - 0.5)
-            prog_score, prog_fb = programmatic_grader.grade_task4_programmatic(
-                req.icu_patients, patients
-            )
-
-            # LLM judge score (0.0 - 0.5)
-            llm_score, llm_fb = llm_grader.grade_reasoning(
-                [env._clean(p) for p in patients[:3]],
-                req.reasoning or "",
-                patients[0]["ground_truth_level"],
-            )
-
-            reward = round(min(1.0, prog_score + llm_score), 2)
-            feedback = f"Programmatic: {prog_fb} | LLM Judge: {llm_fb}"
-
-        else:
-            raise HTTPException(400, "Invalid task_id. Must be 1-4.")
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        # Safety net — never return rewards outside [0.0, 1.0]
-        reward = 0.0
-        feedback = f"Grading error: {str(e)}"
-
-    # Clamp reward to (0.01, 0.99) — strict validator compliance (no exact 0.0 or 1.0)
-    reward = round(max(0.01, min(0.99, float(reward))), 2)
-
-    env.last_reward = reward
-    env.patients_seen += len(patients)
-
+    obs, reward, done, feedback = env.step(req)
+    
+    if not done:
+        save_session(req.session_id, env)
+    
     return StepResponse(
+        observation=obs,
         reward=reward,
-        done=True,
+        done=done,
         feedback=feedback,
-        info={
-            "task_id": task_id,
-            "patients_seen": env.patients_seen,
-            "step_count": env.step_count,
-        },
+        info=env.get_state()
     )
+
+
+@router.get("/state/{session_id}")
+async def get_state(session_id: str):
+    env = load_session(session_id)
+    if env is None:
+        raise HTTPException(status_code=404, detail="Session not found.")
+    return env.get_state()
