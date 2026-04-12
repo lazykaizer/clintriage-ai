@@ -13,7 +13,7 @@ from rich.panel import Panel
 load_dotenv()
 
 # --- Config ---
-ENV_URL = os.getenv("ENV_URL", "http://localhost:7860")
+ENV_URL = os.getenv("ENV_URL", "http://127.0.0.1:7860")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
 HF_TOKEN = os.getenv("HF_TOKEN")
@@ -87,9 +87,20 @@ def run_eval():
 
     total_reward = 0
     for t_id, name in task_map.items():
+        # Enhanced Persistent Retry Logic (90s window)
+        r = None
+        for attempt in range(30):
+            try:
+                r = requests.post(f"{ENV_URL}/reset", json={"task_id": t_id}, timeout=15).json()
+                break
+            except:
+                time.sleep(3)
+        
+        if not r:
+            table.add_row(f"T{t_id}", name, "[red]STALLED[/red]", "0.00", "Server Timeout")
+            continue
+
         try:
-            time.sleep(1.5)
-            r = requests.post(f"{ENV_URL}/reset", json={"task_id": t_id}, timeout=15).json()
             action = get_physician_decision(r["observation"], t_id)
             time.sleep(1)
             s = requests.post(f"{ENV_URL}/step", json={"session_id": r["session_id"], "task_id": t_id, **action}, timeout=20).json()
@@ -99,7 +110,7 @@ def run_eval():
             status = "[green]EXCELLENT[/green]" if reward >= 0.98 else "[yellow]GOOD[/yellow]"
             table.add_row(f"T{t_id}", name, status, f"{reward:.2f}", s["feedback"][:50])
         except Exception as e:
-            table.add_row(f"T{t_id}", name, "[red]ERROR[/red]", "0.00", f"Stalled: {str(e)[:30]}")
+            table.add_row(f"T{t_id}", name, "[red]ERROR[/red]", "0.00", f"Step Failed: {str(e)[:30]}")
 
     avg_score = total_reward / 4
     console.print(table)
